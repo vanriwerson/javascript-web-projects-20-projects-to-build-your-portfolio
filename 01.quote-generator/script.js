@@ -7,33 +7,33 @@ const loader = document.getElementById('loader')
 
 let apiQuotes = []
 
-function loading() {
+function showLoadingSpinner() {
     loader.hidden = false
     quoteContainer.hidden = true
 }
 
-function complete() {
+function hideLoadingSpinner() {
     quoteContainer.hidden = false
     loader.hidden = true
 }
 
 function newQuote() {
-    loading()
+    showLoadingSpinner()
     const randomIndex = Math.floor(Math.random() * apiQuotes.length)
     const quote = apiQuotes[randomIndex]
     
-    if(quote.text.length > 50) {
+    if(quote.text.length > 120) {
         quoteText.classList.add('long-quote')
     } else {
         quoteText.classList.remove('long-quote')
     }
     quoteText.innerText = quote.text
     authorText.textContent = !quote.author ? '(Unknown)' : `(${quote.author})`
-    complete()
+    hideLoadingSpinner()
 }
 
-async function getQuotes() {
-    loading()
+async function getQuotesFromAPI() {
+    showLoadingSpinner()
     const apiUrl = 'https://type.fit/api/quotes'
 
     try {
@@ -41,7 +41,7 @@ async function getQuotes() {
         apiQuotes = await response.json()
         newQuote()
     } catch(error) {
-        //Mensagem de erro aqui
+        window.alert('Sorry! Something goes wrong.')
     }
 }
 
@@ -53,4 +53,4 @@ function tweetQuote() {
 newQuoteBtn.addEventListener('click', newQuote)
 twitterBtn.addEventListener('click', tweetQuote)
 
-getQuotes()
+getQuotesFromAPI()
