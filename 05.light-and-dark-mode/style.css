@@ -183,6 +183,11 @@ p {
   color: var(--on-background);
 }
 
+.social-icons a:hover,
+.social-icons a:focus {
+  border-bottom: none;
+}
+
 /* Dark Mode Toggle */
 .theme-switch-wrapper {
   display: flex;

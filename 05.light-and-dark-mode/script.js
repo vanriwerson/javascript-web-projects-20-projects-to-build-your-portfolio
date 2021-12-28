@@ -19,15 +19,6 @@ function switchTheme(event) {
   }
 }
 
-function toggleDarkLightMode(isDark) {
-  nav.style.backgroundColor = isDark ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)';
-  textBox.style.backgroundColor = isDark ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)';
-  toggleIcon.children[0].textContent = isDark ? 'to Light Mode' : 'to Dark Mode';
-  isDark ? toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun') : toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon');
-
-  isDark ? changeImageMode('dark') : changeImageMode('light')
-}
-
 function changeImageMode(color) {
   const sources = [
     `./img/undraw_proud_coder_${color}.svg`, 
@@ -35,6 +26,15 @@ function changeImageMode(color) {
     `./img/undraw_conceptual_idea_${color}.svg`
   ]
   undrawImages.forEach((image, idx) => image.src = sources[idx])
+}
+
+function toggleDarkLightMode(isDark) {
+  nav.style.backgroundColor = isDark ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)';
+  textBox.style.backgroundColor = isDark ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)';
+  toggleIcon.children[0].textContent = isDark ? 'to Light Mode' : 'to Dark Mode';
+  isDark ? toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun') : toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon');
+
+  isDark ? changeImageMode('dark') : changeImageMode('light')
 }
 
 toggleSwitch.addEventListener("change", switchTheme);
