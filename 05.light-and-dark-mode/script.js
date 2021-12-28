@@ -1,45 +1,40 @@
+const DARK_THEME = 'dark'
+const LIGHT_THEME = 'light'
+
 const toggleSwitch = document.querySelector('input[type="checkbox"]');
 const nav = document.getElementById('nav')
 const toggleIcon = document.getElementById('toggle-icon')
-const image1 = document.getElementById('image1')
-const image2 = document.getElementById('image2')
-const image3 = document.getElementById('image3')
+const undrawImages = document.querySelectorAll('.about-container img')
 const textBox = document.getElementById('text-box')
-
-function changeImageMode(color) {
-  image1.src = `./img/undraw_proud_coder_${color}.svg`;
-  image2.src = `./img/undraw_feeling_proud_${color}.svg`;
-  image3.src = `./img/undraw_conceptual_idea_${color}.svg`;
-}
 
 function switchTheme(event) {
   if (event.target.checked) {
-    document.documentElement.setAttribute("data-theme", "dark");
-    localStorage.setItem('theme', 'dark');
-    darkMode()
+    document.documentElement.setAttribute("data-theme", DARK_THEME);
+    localStorage.setItem('theme', DARK_THEME);
+    toggleDarkLightMode(true)
   } else {
-    document.documentElement.setAttribute("data-theme", "light");
-    localStorage.setItem('theme', 'light');
-    lightMode()
+    document.documentElement.setAttribute("data-theme", LIGHT_THEME);
+    localStorage.setItem('theme', LIGHT_THEME);
+    toggleDarkLightMode(false)
   }
 }
 
-function darkMode() {
-  nav.style.backgroundColor = 'rgb(0 0 0 / 50%)';
-  textBox.style.backgroundColor = 'rgb(255 255 255 / 50%)';
-  toggleIcon.children[0].textContent = 'to Light Mode';
-  toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun');
+function toggleDarkLightMode(isDark) {
+  nav.style.backgroundColor = isDark ? 'rgb(0 0 0 / 50%)' : 'rgb(255 255 255 / 50%)';
+  textBox.style.backgroundColor = isDark ? 'rgb(255 255 255 / 50%)' : 'rgb(0 0 0 / 50%)';
+  toggleIcon.children[0].textContent = isDark ? 'to Light Mode' : 'to Dark Mode';
+  isDark ? toggleIcon.children[1].classList.replace('fa-moon', 'fa-sun') : toggleIcon.children[1].classList.replace('fa-sun', 'fa-moon');
 
-  changeImageMode('dark')
+  isDark ? changeImageMode('dark') : changeImageMode('light')
 }
 
-function lightMode() {
-  nav.style.backgroundColor = 'rgb(255 255 255 / 50%)';
-  textBox.style.backgroundColor = 'rgb(0 0 0 / 50%)';
-  toggleIcon.children[0].textContent = 'to Dark Mode';
-  toggleIcon.children[1].classList.remove('fa-sun', 'fa-moon');
-  
-  changeImageMode('light')
+function changeImageMode(color) {
+  const sources = [
+    `./img/undraw_proud_coder_${color}.svg`, 
+    `./img/undraw_feeling_proud_${color}.svg`, 
+    `./img/undraw_conceptual_idea_${color}.svg`
+  ]
+  undrawImages.forEach((image, idx) => image.src = sources[idx])
 }
 
 toggleSwitch.addEventListener("change", switchTheme);
@@ -50,6 +45,6 @@ if(currentTheme) {
 
   if(currentTheme === 'dark') {
     toggleSwitch.checked = true;
-    darkMode()
+    toggleDarkLightMode(true)
   }
 }
